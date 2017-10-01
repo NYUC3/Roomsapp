@@ -1,0 +1,60 @@
+import AWS from 'aws-sdk';
+
+// Setup
+const dynamo = new AWS.DynamoDB({ 
+  endpoint: new AWS.Endpoint('http://localhost:8000'),
+});
+
+export setupLocations() {
+
+  dynamo.createTable({
+
+    AttributeDefinitions: [
+    {
+      AttributeName: 'address',
+      AttributeType: 'S',
+    },
+    {
+      AttributeName: 'amenities',
+      AttributeType: 'SS',
+    },
+    {
+      AttributeName: 'locationId',
+      AttributeType: 'S',
+    },
+    {
+      AttributeName: 'name',
+      AttributeType: 'S',
+    },
+    ],
+    KeySchema: [
+    {
+      AttributeName: 'locationId',
+      KeyType: 'HASH',
+    }
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
+    TableName: 'locations',
+
+  }, (err, data) => {
+
+    if(err) console.log(err, err.stack);
+    else    console.log(data);
+  });
+}
+
+export clearLocations() {
+
+  dynamo.deleteTable({
+
+    TableName: 'locations',
+
+  }, (err, data) => {
+    
+    if(err) console.log(err, err.stack);
+    else    console.log(data);
+  });
+}

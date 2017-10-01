@@ -1,0 +1,47 @@
+{
+  "name": "roomsserver",
+  "version": "0.0.1",
+  "description": "The backend code for Room Reservation App",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NYUC3/Roomsapp-backend.git"
+  },
+  "author": "Rayat Rahman @riotrah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NYUC3/Roomsapp-backend/issues"
+  },
+  "homepage": "https://github.com/NYUC3/Roomsapp-backend#readme",
+  "dependencies": {
+    "aws-sdk": "^2.108.0",
+    "babel-runtime": "^6.26.0",
+    "chai": "^4.1.2",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "eslint": "^4.6.1",
+    "eslint-config-google": "^0.9.1",
+    "glob": "^7.1.2",
+    "husky": "^0.14.3",
+    "serverless-offline": "^3.16.0",
+    "serverless-webpack": "^2.2.2",
+    "webpack": "^3.5.5",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "scripts": {
+    "prepush": "./node_modules/.bin/eslint **/*.js",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register ./test/**/*.js",
+    "clean": "rm -rf node_modules && rm -rf src/node_modules",
+    "deploy": "./node_modules/.bin/serverless deploy | tee .build/deploy.out",
+    "deploy:cicd": "./node_modules/.bin/serverless deploy --stage cicd | tee .build/deploy.out",
+    "predeploy:cicd": "mkdir -p .build",
+    "predeploy": "npm run predeploy",
+    "install:lambda": "cd src; npm install; cd ..",
+    "install": "npm run install:lambda"
+  }
+}
