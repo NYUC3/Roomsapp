@@ -34,7 +34,6 @@
     "webpack-node-externals": "^1.6.0"
   },
   "scripts": {
-    "prepush": "./node_modules/.bin/eslint **/*.js",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register ./test/**/*.js",
     "clean": "rm -rf node_modules && rm -rf src/node_modules",
     "deploy": "./node_modules/.bin/serverless deploy | tee .build/deploy.out",
