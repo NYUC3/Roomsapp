@@ -5,7 +5,7 @@ const dynamo = new AWS.DynamoDB({
   endpoint: new AWS.Endpoint('http://localhost:8000'),
 });
 
-export setupLocations() {
+export function setupLocations(done) {
 
   dynamo.createTable({
 
@@ -46,7 +46,7 @@ export setupLocations() {
   });
 }
 
-export clearLocations() {
+export function clearLocations(done) {
 
   dynamo.deleteTable({
 

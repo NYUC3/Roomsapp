@@ -42,10 +42,8 @@ describe('DB Interface', function() {
       },
     };
 
-    const result = Interface.call('get', params);
-    expect(result).to.be.an('object');
-    expect(result).to.have.property('data');
-    expect(result).to.have.property('err');
+    const result = await Interface.call('get', params);
+    expect(result).to.be.an('object').and.have.property('locationId');
   });  
 });
 
@@ -86,5 +84,5 @@ describe('# DB Drivers', function() {
         expect(result).to.be.an('array').and.not.be.empty;
       });
     });
+
   });
-}); 

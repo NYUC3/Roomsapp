@@ -5,6 +5,7 @@ import * as DynamoDB from '../../lib/db/dynamodb';
 // DynamoDB Tests //
 ////////////////////
 describe('DynamoDB', function() {
+describe('# DynamoDB', function() {
   describe('# Params: Good Params', function() {
     it('should return a valid standardized Params object when passed a valid object', function() {
 
