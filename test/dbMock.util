@@ -7,31 +7,22 @@ const dynamo = new AWS.DynamoDB({
 
 export function setupLocations(done) {
 
+  // clearLocations();
   dynamo.createTable({
 
-    AttributeDefinitions: [
-    {
-      AttributeName: 'address',
-      AttributeType: 'S',
-    },
-    {
-      AttributeName: 'amenities',
-      AttributeType: 'SS',
-    },
-    {
-      AttributeName: 'locationId',
-      AttributeType: 'S',
-    },
-    {
-      AttributeName: 'name',
-      AttributeType: 'S',
-    },
+    AttributeDefinitions: 
+    [
+      {
+        AttributeName: 'locationId',
+        AttributeType: 'S',
+      },
     ],
-    KeySchema: [
-    {
-      AttributeName: 'locationId',
-      KeyType: 'HASH',
-    }
+    KeySchema: 
+    [
+      {
+        AttributeName: 'locationId',
+        KeyType: 'HASH',
+      },
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 5,
@@ -41,8 +32,50 @@ export function setupLocations(done) {
 
   }, (err, data) => {
 
-    if(err) console.log(err, err.stack);
-    else    console.log(data);
+    if (err) { 
+      // console.log('[ERROR]:', err.message); 
+      done(); 
+    } else {
+      // console.log('Created locations table');
+      const params = {
+        Item: 
+        {
+          'address': {
+            S: '70 Washington Square S, New York, NY 10012',
+          },
+          'amenities': {
+            L: [
+              {
+                S: 'coffee',
+              },
+              {
+                S: 'printing',
+              },
+              {
+                S: 'whiteboard',
+              },
+            ],
+          },
+          'locationId': {
+            S: 'BOBST',
+          },
+          'name': {
+            S: 'Elmer Holmes Bobst Library',
+          },
+        },
+        ReturnConsumedCapacity: 'TOTAL', 
+        TableName: 'locations',
+      };
+      dynamo.putItem(params, function(err, data) {
+        if (err) { 
+          // console.log('[ERROR]:', err.message); 
+          done(); 
+        } else {
+          // console.log('Added Bobst item to locations');
+          done();     
+        } 
+      });
+    }
   });
 }
 
@@ -54,7 +87,12 @@ export function clearLocations(done) {
 
   }, (err, data) => {
     
-    if(err) console.log(err, err.stack);
-    else    console.log(data);
+    if (err)  {
+      // console.log('[ERROR]:', err.message);
+      done();
+    } else {
+      // console.log('Deleted locations table');
+      done();
+    }
   });
 }
