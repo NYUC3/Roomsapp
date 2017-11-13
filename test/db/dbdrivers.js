@@ -1,39 +1,18 @@
 import { expect } from 'chai';
 import * as Interface from '../../lib/db/interface';
 import * as DBObject from '../../lib/db';
+import * as dbMock from '../dbMock.util';
 
 ////////////////
 // DB Drivers //
 ////////////////
 
-// Setup
-import AWS from 'aws-sdk';
-const dynamo = new AWS.DynamoDB({ 
-  endpoint: new AWS.Endpoint('http://localhost:8000'),
-});
-dynamo.createTable({
-  AttributeDefinitions: [
-    {
-      AttributeName: 'address',
-      AttributeType: 'S',
-    },
-    {
-      AttributeName: 'amenities',
-      AttributeType: 'SS',
-    },
-    {
-      AttributeName: 'locationId',
-      AttributeType: 'S',
-    },
-    {
-      AttributeName: 'name',
-      AttributeType: 'S',
-    },
-  ]
-},);
+before('Setting up locations table', (done) => { dbMock.setupLocations(done); });
 
-describe('DB Interface', function() {
-  it('should return a payload object', function() {
+describe('# DB Interface', function() {
+
+
+  it('should return a payload object', async function() {
 
     const params = {
       table: 'locations',
@@ -43,46 +22,33 @@ describe('DB Interface', function() {
     };
 
     const result = await Interface.call('get', params);
+    // console.log(result);
     expect(result).to.be.an('object').and.have.property('locationId');
   });  
 });
 
 describe('# DB Drivers', function() {
+
   describe('# Locations', function() {
-    describe('get', function() {
-      it('should return an object with a data property', function() {
+
+    describe('# get', function() {
+      it('should return an object with a data property', async function() {
 
         const id = 'BOBST';
-        const result = DBObject.locations.get(id);
-        expect(result).to.be.an('object').and.have.property('data');
+        const result = await DBObject.locations.get(id);
+        expect(result).to.be.an('object').and.have.property('locationId');
       });
     });
 
-    describe('list', function() {
-      it('should return an array of objects carrying data properties', function() {
+    describe('# list', function() {
+      it('should return an array of objects carrying data properties', async function() {
 
-        const result = DBObject.locations.get();
-        expect(result).to.be.an('array').and.not.be.empty;
-      });
-    });
-  });
-
-  describe('# Reservations', function() {
-    describe('get', function() {
-      it('should return an object with a data property', function() {
-
-        const id = 'BOBST';
-        const result = DBObject.reservations.get(id);
-        expect(result).to.be.an('object').and.have.property('data');
-      });
-    });
-
-    describe('list', function() {
-      it('should return an array of objects carrying data properties', function() {
-
-        const result = DBObject.reservations.get();
+        const result = await DBObject.locations.list();
         expect(result).to.be.an('array').and.not.be.empty;
       });
     });
 
   });
+}); 
+
+after('Deleting locations table', (done) => { dbMock.clearLocations(done); });
