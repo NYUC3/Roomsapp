@@ -41,6 +41,7 @@ export class Reservation {
   }
 
   get(reservationId) {
+    if (!reservationId) { throw new Error('No reserveration id provided!'); }
     return this.db.reservations.get(reservationId);
   }
 
