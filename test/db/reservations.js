@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+/*import { expect } from 'chai';
 import * as ReservationsModel from '../../reservations/Reservation';
 
 describe('# Reservations Object', function() {
@@ -40,4 +40,12 @@ describe('# Reservations Object', function() {
       expect(result).to.be(true);
     });
   });
+
+  describe('# Methods', function() {
+
+    describe('# get(id)', function() {
+      it('should grab a single reservation object');
+    });
+  });
 }); 
+*/
