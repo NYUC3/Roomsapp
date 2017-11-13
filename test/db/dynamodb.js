@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import * as DynamoDB from '../../lib/db/dynamodb';
+import * as dbMock from '../dbMock.util';
 
 ////////////////////
 // DynamoDB Tests //
 ////////////////////
-describe('DynamoDB', function() {
 describe('# DynamoDB', function() {
+  before('# Setting up locations table', dbMock.setupLocations);
   describe('# Params: Good Params', function() {
     it('should return a valid standardized Params object when passed a valid object', function() {
 
@@ -82,4 +83,6 @@ describe('# DynamoDB', function() {
       });
     });
   });
+
+  after('Deleting locations table', dbMock.clearLocations);
 });
