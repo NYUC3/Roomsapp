@@ -28,6 +28,7 @@
     "eslint-config-google": "^0.9.1",
     "glob": "^7.1.2",
     "husky": "^0.14.3",
+    "nyc": "^11.3.0",
     "serverless-offline": "^3.16.0",
     "serverless-webpack": "^2.2.2",
     "webpack": "^3.5.5",
@@ -35,7 +36,7 @@
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint **/*.js",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register ./test/**/*.js",
+    "test": "nyc mocha --compilers js:babel-core/register ./test/**/*.js",
     "clean": "rm -rf node_modules && rm -rf src/node_modules",
     "deploy": "./node_modules/.bin/serverless deploy | tee .build/deploy.out",
     "deploy:cicd": "./node_modules/.bin/serverless deploy --stage cicd | tee .build/deploy.out",
